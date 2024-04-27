@@ -1,0 +1,28 @@
+{
+  "name": "vedastudio/frame-php",
+  "type": "library",
+  "description": "Frame is a PHP microframework that helps you quickly write simple yet powerful web applications and APIs",
+  "keywords": ["microframework","php","api","router"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vitaliy Olos",
+      "email": "vedastudio@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Frame\\": "Frame/"
+    }
+  },
+  "require": {
+    "php": "^8.2",
+    "ext-pdo": "*",
+    "ext-curl": "*",
+    "psr/container": "1.0.0",
+    "psr/http-server-middleware": "^1.0.2",
+    "psr/http-client": "^1.0",
+    "nyholm/psr7": "^1.8.1",
+    "nyholm/psr7-server": "^1.1"
+  }
+}
