@@ -24,5 +24,7 @@
     "psr/http-client": "^1.0",
     "nyholm/psr7": "^1.8.1",
     "nyholm/psr7-server": "^1.1"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
