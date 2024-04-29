@@ -52,7 +52,7 @@ class Database extends DatabaseCore
                 case '?A':
                     if (is_array($value) && $value !== array_values($value)) {
                         foreach ($value as $key => &$v) {
-                            $v = '`' . $key . '`=' . $this->pdo->quote($v);
+                            $v = '`' . $key . '`=' . (is_int($v) ? $v : $this->pdo->quote($v));
                         }
                         $part = implode(', ', $value);
                     } else {
