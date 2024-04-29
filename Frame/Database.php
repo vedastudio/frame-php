@@ -45,7 +45,7 @@ class Database extends DatabaseCore
                         $this->error("?a placeholder expects array, " . gettype($value) . " given");
                     }
                     foreach ($value as &$v) {
-                        $v = $this->pdo->quote($v);
+                        $v = is_int($v) ? $v : $this->pdo->quote($v);
                     }
                     $part = implode(',', $value);
                     break;
