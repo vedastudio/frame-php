@@ -54,7 +54,7 @@ abstract class AbstractRepository
         $this->orderBy = $this->orderBy ? "ORDER BY $this->orderBy" : '';
     }
 
-    public function create($item): false|int
+    public function create($item): false|string
     {
         $query = $this->db->prepare("INSERT INTO ?t SET ?A", $this->table, $item);
         $this->db->query($query);

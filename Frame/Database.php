@@ -105,7 +105,7 @@ class Database extends DatabaseCore
         }
     }
 
-    public function lastInsertId(): false|int
+    public function lastInsertId(): false|string
     {
         return $this->pdo->lastInsertId();
     }
