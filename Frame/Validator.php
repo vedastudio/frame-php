@@ -13,7 +13,7 @@ class Validator
     private array $errors = [];
     private array $fields;
     private string $field;
-    private string|array $value = '';
+    private mixed $value = '';
 
     public function __construct(private readonly string $lang = 'en')
     {
