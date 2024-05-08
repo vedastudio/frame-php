@@ -39,11 +39,11 @@ trait RulesTrait
         return $this;
     }
 
-    public function phone(): self
+    public function phone(string $region = 'RU'): self
     {
         if (PhoneNumberUtil::isViablePhoneNumber($this->value)) {
             $phoneUtil = PhoneNumberUtil::getInstance();
-            $numberProto = $phoneUtil->parse($this->value, $this->defaultRegion);
+            $numberProto = $phoneUtil->parse($this->value, $region);
             if ($phoneUtil->isValidNumber($numberProto) === false) {
                 $this->addError(__FUNCTION__);
             }
