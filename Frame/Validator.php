@@ -15,7 +15,7 @@ class Validator
     private string $field;
     private mixed $value = '';
 
-    public function __construct(private readonly string $lang = 'en')
+    public function __construct(private readonly string $lang = 'ru', $defaultRegion = 'RU')
     {
     }
 
