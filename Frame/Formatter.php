@@ -9,8 +9,11 @@ class Formatter
 {
     public function phone(string $phone, string $region = "RU"): string
     {
-        $phoneUtil = PhoneNumberUtil::getInstance();
-        $number_proto = $phoneUtil->parse($phone, $region);
-        return $phoneUtil->format($number_proto, PhoneNumberFormat::E164);
+        if (PhoneNumberUtil::isViablePhoneNumber($phone)) {
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            $number_proto = $phoneUtil->parse($phone, $region);
+            return $phoneUtil->format($number_proto, PhoneNumberFormat::E164);
+        }
+        return $phone;
     }
 }
