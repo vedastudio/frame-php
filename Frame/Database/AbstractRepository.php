@@ -4,6 +4,7 @@ namespace Frame\Database;
 
 use Exception;
 use Frame\Database;
+use stdClass;
 
 /** All Repository classes should extend this class */
 abstract class AbstractRepository
@@ -107,6 +108,17 @@ abstract class AbstractRepository
 
         $this->db->query($query);
         return $this->db->result('count');
+    }
+
+    public function emptyRecord(): object
+    {
+        $this->db->query("DESCRIBE $this->table");
+        $emptyRecord = new stdClass();
+        foreach ($this->db->results() as $column) {
+            if($column->Field === 'id' && $column->Key === 'PRI') continue;
+            $emptyRecord->{$column->Field} = null;
+        }
+        return $emptyRecord;
     }
 
     public function setFilter(array $filters): self
