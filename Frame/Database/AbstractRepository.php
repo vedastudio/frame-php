@@ -116,7 +116,7 @@ abstract class AbstractRepository
         $emptyRecord = new stdClass();
         foreach ($this->db->results() as $column) {
             if($column->Field === 'id' && $column->Key === 'PRI') continue;
-            $emptyRecord->{$column->Field} = null;
+            $emptyRecord->{$column->Field} = '';
         }
         return $emptyRecord;
     }
