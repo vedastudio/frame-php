@@ -14,6 +14,14 @@ trait RulesTrait
         return $this;
     }
 
+    public function unique(bool $isUnique): self
+    {
+        if (!$isUnique) {
+            $this->addError(__FUNCTION__);
+        }
+        return $this;
+    }
+
     public function string(): self
     {
         if (!is_string($this->value)) {
