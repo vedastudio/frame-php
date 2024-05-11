@@ -77,7 +77,7 @@ abstract class AbstractRepository
         return $this->db->rowCount();
     }
 
-    public function read(bool $readOne = false): array|object|bool
+    public function read(bool $readOne = false): mixed
     {
         $query = "$this->select
         $this->from
@@ -92,7 +92,7 @@ abstract class AbstractRepository
         return $this->db->results($this->primaryKey);
     }
 
-    public function readOne(): object|bool
+    public function readOne(): mixed
     {
         $this->limit = 'LIMIT 1';
         return $this->read(true);
