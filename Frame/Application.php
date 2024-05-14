@@ -37,7 +37,7 @@ class Application extends RouteCollector implements RequestHandlerInterface
 
         array_map([$this, 'addMiddleware'], $routeInfo['middleware']);
 
-        $request = $request->withAttribute('routeInfo', $routeInfo)->withAttribute('routes', $this->routes);
+        $request = $request->withAttribute('routeInfo', $routeInfo);
 
         return $this->handle($request);
     }
