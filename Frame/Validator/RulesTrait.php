@@ -8,7 +8,9 @@ trait RulesTrait
 {
     public function required(): self
     {
-        if ((is_array($this->value) && empty($this->value)) || empty(trim($this->value))) {
+        if ((is_array($this->value) && empty($this->value)) ||
+            (!is_array($this->value) && empty(trim($this->value)))
+        ) {
             $this->addError(__FUNCTION__);
         }
         return $this;

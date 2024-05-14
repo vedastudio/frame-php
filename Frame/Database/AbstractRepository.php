@@ -55,17 +55,18 @@ abstract class AbstractRepository
         $this->orderBy = $this->orderBy ? "ORDER BY $this->orderBy" : '';
     }
 
-    public function create($item): false|string
+    public function create(array $data, bool $cleanData = false): false|string
     {
-        $query = $this->db->prepare("INSERT INTO ?t SET ?A", $this->table, $item);
-        $this->db->query($query);
+        if($cleanData) $data = $this->cleanData($data);
+        $this->db->query("INSERT INTO ?t SET ?A", $this->table, $data);
 
         return $this->db->lastInsertId();
     }
 
-    public function update(int $id, array $item): int
+    public function update(int $id, array $data, bool $cleanData = false): int
     {
-        $this->db->query("UPDATE ?t SET ?A WHERE id = ?i", $this->table, $item, $id);
+        if($cleanData) $data = $this->cleanData($data);
+        $this->db->query("UPDATE ?t SET ?A WHERE id = ?i", $this->table, $data, $id);
 
         return $id;
     }
@@ -110,15 +111,52 @@ abstract class AbstractRepository
         return $this->db->result('count');
     }
 
+    private function cleanData(array $data): array
+    {
+        $this->db->query("DESCRIBE $this->table");
+        $cleanedData = [];
+        foreach ($this->db->results() as $row) {
+            if (array_key_exists($row->Field, $data)) {
+                $cleanedData[$row->Field] = $data[$row->Field];
+            }
+        }
+        return $cleanedData;
+    }
+
     public function emptyRecord(): object
     {
         $this->db->query("DESCRIBE $this->table");
         $emptyRecord = new stdClass();
-        foreach ($this->db->results() as $column) {
-            if($column->Field === 'id' && $column->Key === 'PRI') continue;
-            $emptyRecord->{$column->Field} = '';
+        foreach ($this->db->results() as $row) {
+            if($row->Field === 'id' && $row->Key === 'PRI') continue;
+            $emptyRecord->{$row->Field} = $this->convertMySQLType($row->Type,$row->Default);
         }
         return $emptyRecord;
+    }
+
+    private function convertMySQLType($type, $value) {
+        if ($value === null) return null;
+        if ($value === '') return '';
+        if ($value === 'current_timestamp()') {
+            return date('Y-m-d H:i:s');
+        }
+        $mainType = strtoupper(explode('(', $type)[0]);
+
+        switch ($mainType) {
+            case 'INT':
+            case 'TINYINT':
+            case 'SMALLINT':
+            case 'MEDIUMINT':
+            case 'BIGINT':
+                return (int)$value;
+            case 'DECIMAL':
+            case 'NUMERIC':
+            case 'FLOAT':
+            case 'DOUBLE':
+                return (float)$value;
+            default:
+                return $value;
+        }
     }
 
     public function setFilter(array $filters): self
