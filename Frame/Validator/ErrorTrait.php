@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Frame\Validator;
 
@@ -15,13 +15,13 @@ trait ErrorTrait
             'pattern' => 'Field {field} must match the regular expression {pattern}'
         ],
         'ru' => [
-            'field' => 'Поле {field} не существует',
-            'required' => 'Поле {field} обязательно',
-            'unique' => 'Поле {field} должно быть уникальным',
-            'string' => 'Поле {field} должно быть строкой',
-            'numeric' => 'Поле {field} должно быть числом',
-            'phone' => 'Поле {field} имеет не правильный формат',
-            'pattern' => 'Поле {field} должно соответствовать регулярному выражению {pattern}'
+            'field' => 'Поле не существует',
+            'required' => 'Поле обязательно',
+            'unique' => 'Значение должно быть уникальным',
+            'string' => 'Введите текст',
+            'numeric' => 'Введите число',
+            'phone' => 'Неправильный формат номера',
+            'pattern' => 'Значение не соответствует шаблону'
         ]
     ];
 }
