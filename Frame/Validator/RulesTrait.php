@@ -8,11 +8,7 @@ trait RulesTrait
 {
     public function required(): self
     {
-        if (is_null($this->value) ||
-            (is_array($this->value) && empty($this->value)) ||
-            (is_string($this->value) && trim($this->value) === '') ||
-            (is_numeric($this->value) && is_nan($this->value))
-        ) {
+        if (is_null($this->value) || (is_string($this->value) && trim($this->value) === '')) {
             $this->addError(__FUNCTION__);
         }
         return $this;
