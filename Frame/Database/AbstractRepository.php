@@ -129,6 +129,7 @@ abstract class AbstractRepository
         $emptyRecord = new stdClass();
         foreach ($this->db->results() as $row) {
             if($row->Field === 'id' && $row->Key === 'PRI') continue;
+            if($row->Type === 'datetime' && $row->Default === 'current_timestamp()') continue;
             $emptyRecord->{$row->Field} = $this->convertMySQLType($row->Type,$row->Default);
         }
         return $emptyRecord;
@@ -137,11 +138,8 @@ abstract class AbstractRepository
     private function convertMySQLType($type, $value) {
         if ($value === null) return null;
         if ($value === '') return '';
-        if ($value === 'current_timestamp()') {
-            return date('Y-m-d H:i:s');
-        }
-        $mainType = strtoupper(explode('(', $type)[0]);
 
+        $mainType = strtoupper(explode('(', $type)[0]);
         switch ($mainType) {
             case 'INT':
             case 'TINYINT':
