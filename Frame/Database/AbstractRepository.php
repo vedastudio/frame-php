@@ -123,13 +123,12 @@ abstract class AbstractRepository
         return $cleanedData;
     }
 
-    public function emptyRecord(): object
+    public function createEmptyRecord(): object
     {
         $this->db->query("DESCRIBE $this->table");
         $emptyRecord = new stdClass();
         foreach ($this->db->results() as $row) {
             if ($row->Field === 'id' && $row->Key === 'PRI') continue;
-            if ($row->Type === 'datetime' && $row->Default === 'current_timestamp()') continue;
             $emptyRecord->{$row->Field} = $this->convertMySQLType($row->Type, $row->Default);
         }
         return $emptyRecord;
