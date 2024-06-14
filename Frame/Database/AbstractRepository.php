@@ -57,7 +57,7 @@ abstract class AbstractRepository
 
     public function create(array $data, bool $cleanData = false): false|string
     {
-        if($cleanData) $data = $this->cleanData($data);
+        if ($cleanData) $data = $this->cleanData($data);
         $this->db->query("INSERT INTO ?t SET ?A", $this->table, $data);
 
         return $this->db->lastInsertId();
@@ -65,7 +65,7 @@ abstract class AbstractRepository
 
     public function update(int $id, array $data, bool $cleanData = false): int
     {
-        if($cleanData) $data = $this->cleanData($data);
+        if ($cleanData) $data = $this->cleanData($data);
         $this->db->query("UPDATE ?t SET ?A WHERE id = ?i", $this->table, $data, $id);
 
         return $id;
@@ -128,14 +128,15 @@ abstract class AbstractRepository
         $this->db->query("DESCRIBE $this->table");
         $emptyRecord = new stdClass();
         foreach ($this->db->results() as $row) {
-            if($row->Field === 'id' && $row->Key === 'PRI') continue;
-            if($row->Type === 'datetime' && $row->Default === 'current_timestamp()') continue;
-            $emptyRecord->{$row->Field} = $this->convertMySQLType($row->Type,$row->Default);
+            if ($row->Field === 'id' && $row->Key === 'PRI') continue;
+            if ($row->Type === 'datetime' && $row->Default === 'current_timestamp()') continue;
+            $emptyRecord->{$row->Field} = $this->convertMySQLType($row->Type, $row->Default);
         }
         return $emptyRecord;
     }
 
-    private function convertMySQLType($type, $value) {
+    private function convertMySQLType($type, $value): mixed
+    {
         if ($value === null) return null;
         if ($value === '') return '';
 
@@ -173,7 +174,7 @@ abstract class AbstractRepository
         foreach ($order as &$s) {
             $s = "$this->alias.$s";
         }
-        $clone->orderBy= 'ORDER BY '.implode(', ', $order);
+        $clone->orderBy = 'ORDER BY ' . implode(', ', $order);
         return $clone;
     }
 
