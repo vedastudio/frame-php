@@ -14,7 +14,7 @@ class Session
         $this->session = &$_SESSION;
     }
 
-    public function get(string $key, mixed $default = null): mixed
+    public function get(string $key, mixed $default = null): ?string
     {
         return $this->session[$key] ?? $default;
     }
